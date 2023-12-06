@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 function TheForm() {
 	// categories and tags
@@ -39,7 +39,14 @@ function TheForm() {
 
 	const [articleData, setArticleData] = useState(initialData);
 	const [articles, setArticles] = useState([]);
+	// const [published, setPublished] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
+
+	useEffect(() => {
+		if (articleData.published) {
+			alert("Questo articolo è stato impostato come pubblicato!");
+		}
+	}, [articleData.published]);
 
 	// functions
 	function handleChange(event) {
@@ -198,20 +205,6 @@ function TheForm() {
 					</div>
 				</div>
 
-				{/* Pubblicato */}
-				<div className="flex items-center space-x-2 w-full border-t pt-3">
-					<label className="text-white min-w-[7rem]" htmlFor="published">
-						Pubblicato:
-					</label>
-					<input
-						type="checkbox"
-						name="published"
-						id="published"
-						checked={articleData.published}
-						onChange={handleChange}
-					/>
-				</div>
-
 				{/* Bottone di invio */}
 				<button
 					type="submit"
@@ -223,20 +216,20 @@ function TheForm() {
 			<div className="container mx-auto mt-12 flex justify-center text-zinc-300">
 				<div className="w-full">
 					{articles.length > 0 && (
-						<div className="grid grid-cols-8 gap-3 text-white mb-2">
-							<div className="text-left font-bold">Titolo</div>
-							<div className="text-left font-bold">Autore</div>
-							<div className="text-left font-bold">Contenuto</div>
-							<div className="text-left font-bold">Immagine</div>
-							<div className="text-left font-bold">Categoria</div>
-							<div className="text-left font-bold">Tags</div>
-							<div className="text-left font-bold">Pubblicato</div>
+						<div className="grid grid-cols-8 gap-3 justify-center items-center px-4 text-white mb-2">
+							<div className="text-center font-bold">Titolo</div>
+							<div className="text-center font-bold">Autore</div>
+							<div className="text-center font-bold">Contenuto</div>
+							<div className="text-center font-bold">Immagine</div>
+							<div className="text-center font-bold">Categoria</div>
+							<div className="text-center font-bold">Tags</div>
+							<div className="text-center font-bold">Pubblicato</div>
 							<div>Operazioni:</div>
 						</div>
 					)}
 					{articles.map((article) => (
 						<div
-							className="container mx-auto grid grid-cols-8 gap-3 items-center bg-gray-800 px-4 py-2 rounded-md mb-2 text-sm"
+							className="container mx-auto grid grid-cols-8 gap-3 justify-center items-center bg-gray-800 px-4 py-2 rounded-md mb-2 text-sm"
 							key={article.id}>
 							<div className="text-left">{article.title}</div>
 							<div className="text-left">{article.author}</div>
@@ -247,13 +240,29 @@ function TheForm() {
 								alt=""
 							/>
 							<div className="text-left">{article.category}</div>
-							<div className="text-left">
-								{Object.entries(article.tags)
-									.filter(([_, value]) => value)
-									.map(([key, _]) => key)
-									.join(", ")}
+							<div className="text-center">
+								{Object.keys(article.tags)
+									.filter((key) => article.tags[key])
+									.map((key) => (
+										<span
+											key={key}
+											className="inline-block bg-green-300 text-gray-800 text-xs px-2 py-1 rounded-full mr-2 my-2">
+											{key}
+										</span>
+									))}
 							</div>
-							<div className="text-left">{article.published ? "Sì" : "No"}</div>
+
+							{/* checkbox "Published" */}
+							<div className="flex items-center justify-center space-x-2">
+								<input
+									type="checkbox"
+									name="published"
+									id="published"
+									checked={articleData.published}
+									onChange={handleChange}
+								/>
+							</div>
+
 							<div className="flex gap-2">
 								<button
 									className="px-3 py-1 bg-blue-800 text-slate-200 rounded-md transition duration-200 ease-in-out hover:bg-blue-600 hover:text-white"

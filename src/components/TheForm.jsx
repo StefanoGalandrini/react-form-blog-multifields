@@ -36,8 +36,10 @@ function TheForm() {
 		tags: initialTags,
 		published: false,
 	};
+
 	const [articleData, setArticleData] = useState(initialData);
 	const [articles, setArticles] = useState([]);
+	const [isEditing, setIsEditing] = useState(false);
 
 	// functions
 	function handleChange(event) {
@@ -56,6 +58,7 @@ function TheForm() {
 	}
 
 	function handleEdit(articleId) {
+		setIsEditing(true);
 		const articleToEdit = articles.find((article) => article.id === articleId);
 		setArticleData(articleToEdit);
 	}
@@ -73,6 +76,7 @@ function TheForm() {
 			updatedArticles = articles.map((article) =>
 				article.id === articleData.id ? newArticle : article,
 			);
+			setIsEditing(false);
 		} else {
 			// Aggiunta di un nuovo articolo
 			updatedArticles = [...articles, newArticle];
@@ -212,7 +216,7 @@ function TheForm() {
 				<button
 					type="submit"
 					className="bg-purple-800 text-slate-200 px-4 py-2 rounded hover:bg-purple-600 hover:text-white">
-					Aggiungi
+					{isEditing ? "Modifica" : "Aggiungi"}
 				</button>
 			</form>
 
@@ -252,7 +256,7 @@ function TheForm() {
 								<button
 									className="px-3 py-1 bg-blue-800 text-slate-200 rounded-md transition duration-200 ease-in-out hover:bg-blue-600 hover:text-white"
 									onClick={() => handleEdit(article.id)}>
-									<i class="fa-solid fa-pen-to-square"></i> Modifica
+									<i className="fa-solid fa-pen-to-square"></i> Modifica
 								</button>
 								<button
 									className="px-3 py-1 bg-red-800 text-slate-200 rounded-md transition duration-200 ease-in-out hover:bg-red-600 hover:text-white"

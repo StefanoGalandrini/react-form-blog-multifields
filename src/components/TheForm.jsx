@@ -208,7 +208,12 @@ function TheForm() {
 				{/* Bottone di invio */}
 				<button
 					type="submit"
-					className="bg-purple-800 text-slate-200 px-4 py-2 rounded hover:bg-purple-600 hover:text-white cursor-pointer">
+					className={`px-4 py-2 rounded transition duration-200 ease-in-out
+									${
+										isEditing
+											? "bg-orange-800 text-slate-200 hover:bg-orange-600 hover:text-white cursor-pointer"
+											: "bg-purple-800 text-slate-200  hover:bg-purple-600 hover:text-white cursor-pointer"
+									}`}>
 					{isEditing ? "Modifica" : "Aggiungi"}
 				</button>
 			</form>

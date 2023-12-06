@@ -30,8 +30,8 @@ function TheForm() {
 	const initialData = {
 		title: "",
 		author: "",
-		image: "https://picsum.photos/300/200",
 		content: "",
+		image: "https://picsum.photos/300/200",
 		category: "",
 		tags: initialTags,
 		published: false,
@@ -95,7 +95,7 @@ function TheForm() {
 		<div>
 			<form
 				onSubmit={handleFormSubmit}
-				className="flex flex-col items-center justify-center mt-10 space-y-4 w-full max-w-2xl mx-auto">
+				className="flex flex-col items-center justify-center space-y-4 w-full max-w-2xl mx-auto">
 				{/* Titolo */}
 				<div className="flex justify-between items-center space-x-2 w-full">
 					<label className="text-white min-w-[7rem]" htmlFor="title">
@@ -199,7 +199,7 @@ function TheForm() {
 				</div>
 
 				{/* Pubblicato */}
-				<div className="flex items-center space-x-2 w-full">
+				<div className="flex items-center space-x-2 w-full border-t pt-3">
 					<label className="text-white min-w-[7rem]" htmlFor="published">
 						Pubblicato:
 					</label>
@@ -215,17 +215,18 @@ function TheForm() {
 				{/* Bottone di invio */}
 				<button
 					type="submit"
-					className="bg-purple-800 text-slate-200 px-4 py-2 rounded hover:bg-purple-600 hover:text-white">
+					className="bg-purple-800 text-slate-200 px-4 py-2 rounded hover:bg-purple-600 hover:text-white cursor-pointer">
 					{isEditing ? "Modifica" : "Aggiungi"}
 				</button>
 			</form>
 
-			<div className="mt-12 flex justify-center text-zinc-300">
-				<div className="w-full max-w-7xl">
+			<div className="container mx-auto mt-12 flex justify-center text-zinc-300">
+				<div className="w-full">
 					{articles.length > 0 && (
-						<div className="grid grid-cols-7 gap-3 text-white mb-2">
+						<div className="grid grid-cols-8 gap-3 text-white mb-2">
 							<div className="text-left font-bold">Titolo</div>
 							<div className="text-left font-bold">Autore</div>
+							<div className="text-left font-bold">Contenuto</div>
 							<div className="text-left font-bold">Immagine</div>
 							<div className="text-left font-bold">Categoria</div>
 							<div className="text-left font-bold">Tags</div>
@@ -235,10 +236,11 @@ function TheForm() {
 					)}
 					{articles.map((article) => (
 						<div
-							className="grid grid-cols-7 gap-3 items-center bg-gray-800 px-4 py-2 rounded-md mb-2 text-sm"
+							className="container mx-auto grid grid-cols-8 gap-3 items-center bg-gray-800 px-4 py-2 rounded-md mb-2 text-sm"
 							key={article.id}>
 							<div className="text-left">{article.title}</div>
 							<div className="text-left">{article.author}</div>
+							<div className="text-left">{article.content}</div>
 							<img
 								className="w-40 rounded-md border-1 border-gray-300"
 								src={article.image}
@@ -259,7 +261,13 @@ function TheForm() {
 									<i className="fa-solid fa-pen-to-square"></i> Modifica
 								</button>
 								<button
-									className="px-3 py-1 bg-red-800 text-slate-200 rounded-md transition duration-200 ease-in-out hover:bg-red-600 hover:text-white"
+									className={`px-3 py-1 rounded-md transition duration-200 ease-in-out
+									${
+										isEditing
+											? "bg-slate-400 text-slate-900"
+											: "bg-red-800 text-slate-200 hover:bg-red-600 hover:text-white cursor-pointer"
+									}`}
+									disabled={isEditing}
 									onClick={() => handleDelete(article.id)}>
 									<i className="fa-solid fa-trash-can"></i> Cancella
 								</button>
